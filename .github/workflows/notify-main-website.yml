@@ -1,0 +1,17 @@
+name: Notify Main Repo on Update
+
+on:
+  push:
+    branches: [main]  # or whatever branch your team works on
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger main repo workflow
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.MAIN_REPO_TOKEN }}" \
+            https://api.github.com/repos/iamglad22/dan-submodule-main/dispatches \
+            -d '{"event_type": "trigger-submodule-update"}'
